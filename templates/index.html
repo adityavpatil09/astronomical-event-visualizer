@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronomical Tracker</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        input, button { padding: 10px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h2>Astronomical Event Visualizer</h2>
+    <label for="object">Celestial Object:</label>
+    <select id="object">
+        <option value="sun">Sun</option>
+        <option value="moon">Moon</option>
+        <option value="mercury">Mercury</option>
+        <option value="venus">Venus</option>
+        <option value="mars">Mars</option>
+        <option value="jupiter">Jupiter</option>
+        <option value="saturn">Saturn</option>
+        <option value="uranus">Uranus</option>
+        <option value="neptune">Neptune</option>
+    </select>
+    <br>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date">
+    <br>
+
+    <label for="latitude">Latitude:</label>
+    <input type="number" id="latitude" step="0.1" value="0.0">
+    <br>
+
+    <label for="longitude">Longitude:</label>
+    <input type="number" id="longitude" step="0.1" value="0.0">
+    <br>
+
+    <button onclick="fetchVisualization()">Visualize</button>
+    <br>
+
+    <div id="result"></div>
+
+    <script>
+        function fetchVisualization() {
+            let object = document.getElementById("object").value;
+            let date = document.getElementById("date").value;
+            let lat = document.getElementById("latitude").value;
+            let lon = document.getElementById("longitude").value;
+
+            fetch(`/plotly-visualize/${object}/${date}?lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("result").innerHTML = `<a href="${data.interactive_url}" target="_blank">View Plot</a>`;
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
+    </script>
+</body>
+</html>

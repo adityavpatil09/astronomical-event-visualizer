@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+astropy
+numpy
+plotly
+jinja2
